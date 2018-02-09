@@ -3,7 +3,7 @@
 ## Vault
 
 ### Vault Subcommands
-Adds the following subcommands to `vault` via `~/.bash_profile`:
+Adds the following subcommands to `vault` via `~/.bash_profile` (requires `jq`):
 
 ```
 $ vault append some/path foo=bar hello=world    # Appends secrets to a path instead of overwriting it.
