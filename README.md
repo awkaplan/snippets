@@ -20,12 +20,8 @@ vault_subcmd() {
         case "$1" in
             "append")
                 for ARG in "${@:3}"; do
-                    export K="$(echo $ARG | awk -F '=' '{print $1}')"
-                    export V="$(echo $ARG | awk -F '=' '{print $2}')"
-                    vault write $2 @<(vault read -format=json $2 | jq -r --arg k "$K" --arg v "$V" '.data * ([{"key": $k, "value": $v}] | from_entries)')
+                    vault write $2 @<(vault read -format=json $2 | jq -r --arg k "$(echo $ARG | awk -F '=' '{print $1}')" --arg v "$(echo $ARG | awk -F '=' '{print $2}')" '.data * ([{"key": $k, "value": $v}] | from_entries)')
                 done
-                unset K
-                unset V
                 ;;
             "cp")       vault write "$3" @<(vault read -format=json "$2" | jq -r .data) ;;
             "delkey")   vault write "$2" @<(vault read -format=json "$2" | jq ".data | del(.$3)") ;;
